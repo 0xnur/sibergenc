@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Siber Genç Labirent Oyunu</title>
+
+    <!--Crafty.js-->
+    <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
+    <script type="text/javascript" src="game.js"></script>
+    <!--jQuery-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!--Bootstrap-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!--My files-->
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+
+    <!--Import-->
+
+    <!--jQuery-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!--Bootstrap-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!--My files-->
+    <link type="text/css" rel="stylesheet" href="css/dragdrop.css">
+    <script type="text/javascript" src="move.js"></script>
+
+  </head>
+  <body>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6">
+        <h1>Çocuklar İçin Algoritma Geliştirme Oyunu (alpha sürümü)</h1>
+        <div id="game"></div>
+        <button type="button" class="btn btn-success" onclick="executeCode()" id="run-btn">Çalıştır</button>
+        <button type="button" class="btn btn-success" onclick="runPreview()" id="map-prev-btn">Harita Ön İzleme</button>
+        <button type="button" class="btn btn-success hide" onclick="stopPreview()" id="map-stop-prev-btn">Ön İzleme Durdur</button>
+        <p>Hareket Sayacı: <b id="movement-count">0</b></p>
+      </div>
+      <div class="row">
+  <div class="col-xs-2 connectedSortable" id="firstList">
+    <!-- Start For Block -->
+    <div class="panel panel-default block" id="fl">
+      <div class="panel-heading">
+        <h3 class="panel-title"><input class="block-number number" type="number"
+           name="blocknumber" value="1" min="1" max="50"> Kere Yap: </h3>
+      </div>
+      <div class="panel-body forBlock">
+
+      </div>
+    </div>
+    <!-- Finish For Block -->
+
+       <!-- Start If Else Block -->
+    <div class="panel panel-default block " id="ifelse">
+        <div class="panel-heading">
+        <h3 class="panel-title">If There is a {wall,water,trap,tree,clay} </h3>
+      </div>
+      <div class="panel-body ifBlock">
+      </div>
+             <div class="panel-heading">
+        <h3 class="panel-title ">If Not </h3>
+      </div>
+        <div class="panel-body elseBlock">
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+    <!-- Finish If Else Block -->
+
+    <!-- Start Move Forward Block -->
+    <div class="panel panel-default block" id="mf">
+      <div class="panel-body">
+         <input class="block-number number" type="number"
+           name="blocknumber" value="1" min="1" max="50"> İleriye Adım At
+      </div>
+    </div>
+    <!-- Finish Move Forward Block -->
+
+    <!-- Start Move Backward Block -->
+    <div class="panel panel-default block" id="mb">
+      <div class="panel-body">
+          <input class="block-number number" type="number"
+           name="blocknumber" value="1" min="1" max="50"> Geriye Adım At
+      </div>
+    </div>
+    <!-- Finish Move Backward Block -->
+
+     <!-- Start Turn Right Block -->
+    <div class="panel panel-default block" id="tr">
+      <div class="panel-body">
+        Sağa Dön
+      </div>
+    </div>
+    <!-- Finish Turn Right Block -->
+
+
+     <!-- Start Turn Left Block -->
+    <div class="panel panel-default block" id="tl">
+      <div class="panel-body">
+        Sola Dön
+      </div>
+    </div>
+    <!-- Finish Turn Left Block -->
+
+     <!-- Wait Block -->
+    <div class="panel panel-default block" id="wt">
+      <div class="panel-body">
+        <input class="block-number number" type="number"
+           name="blocknumber" value="1" min="1" max="50"> 3 Tur Bekle
+      </div>
+    </div>
+    <!-- Finish Wait Block -->
+
+
+
+  </div>
+  <div class="col-xs-2 connectedSortable" id="secondList">
+
+<div class="placeholder">drag and drop here
+</div>
+    </div>
+</div>
+
+
+    </div>
+  </div>
+  </body>
+</html>

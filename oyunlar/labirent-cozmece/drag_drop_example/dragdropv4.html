@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sibergenc</title>
+    
+    <!--jQuery-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!--Bootstrap-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!--My files-->
+    <link type="text/css" rel="stylesheet" href="css/dragdrop.css">
+    <script rel="JavaScript">
+    // A $( document ).ready() block.
+    $( document ).ready(function() {
+  /****************************************************************************************
+ DESC           :   Initiate the various variables required
+ DEPENDENCIES   :
+ ****************************************************************************************/
+var componentsHTML = {
+    'Success': '<div class="component" data-component="Success" style="width: 100%; z-index: 100"><div class="alert alert-success"><span class="sort">[MOVE]</span> Success <span class="pull-right remove remove-component">[x]</span></div></div>',
+    'Info': '<div class="component" data-component="Info" style="width: 100%; z-index: 100"><div class="alert alert-info"><span class="sort">[MOVE]</span> Info <span class="pull-right remove remove-component">[x]</span></div></div>',
+    'Warning': '<div class="component" data-component="Warning" style="width: 100%; z-index: 100"><div class="alert alert-warning"><span class="sort">[MOVE]</span> Warning <span class="pull-right remove remove-component">[x]</span></div></div>',
+    'Danger': '<div class="component" data-component="Danger" style="width: 100%; z-index: 100"><div class="alert alert-danger"><span class="sort">[MOVE]</span> Danger <span class="pull-right remove remove-component">[x]</span></div></div>'
+};
+
+/****************************************************************************************
+ DESC           :   Initiate the dragging and dropping zones
+ DEPENDENCIES   :   Jquery
+ ****************************************************************************************/
+function init() {
+    setDraggables();
+    setDroppable();
+    setSortables();
+}
+
+$(init);
+
+/****************************************************************************************
+ DESC           :   Sets what items (class of .drag) can be dragged
+ DEPENDENCIES   :   Jquery
+ ****************************************************************************************/
+function setDraggables() {
+    $(".drag").draggable({
+        cursor: 'auto',
+        connectToSortable: ".component-container",
+        refreshPositions: true,
+        revert: "invalid",
+
+
+        // Create a helper/hover object to be shown on drag of component
+        helper: function(){
+
+            // Get the data component attribute of the selected component
+            var dataComponent = $(this).attr('data-component');
+
+            // Display an alert box of with that component class
+            return  $(componentsHTML[dataComponent]);
+
+            /*return '<div class="sortable drag component" data-component="' + dataComponent + '" style="width: 100%">' +
+                        '<div class="alert alert-' + dataComponent.toLowerCase() + '">' +
+                            '<span class="sort">[MOVE]</span> ' + dataComponent +
+                        '</div>' +
+                    '</div>';*/
+        }
+    });
+
+}
+
+/****************************************************************************************
+ DESC           :   Sets the droppable zone in which the draggable items can be set down
+ DEPENDENCIES   :   Jquery
+ ****************************************************************************************/
+function setDroppable() {
+    $('.drag-container, .sortable-placeholder').droppable({
+
+        tolerance: "intersect",
+        accept: ".drag",
+        hoverClass: "target",
+
+
+        // On drop within a droppable zone:
+        drop: function (event, ui) {
+            console.log("dropped");
+            // get the content dragged item data component attribute
+            // and load the component HTML associated with it
+            console.log(ui);
+
+
+            var dataComponent = $(ui.draggable).attr('data-component');
+            var componentHTML = $(componentsHTML[dataComponent]);
+
+            // If the current drop zone is the initial drag container:
+            if($(this).hasClass("drag-container")) {
+
+                // Hide the container and add the dragged component
+                // into the component container
+                $(this).hide();
+                var section = $(this).siblings(".component-container");
+                section.append(componentHTML);
+
+            } else {
+
+                // Add the component after the others
+                $(this).after(componentHTML);
+            }
+
+
+            // Show the component container for that section
+            $(this).siblings(".component-container").show();
+
+            // Reset the draggable zones to count the new component
+            //setDroppable();
+
+        }
+    });
+}
+
+/****************************************************************************************
+ DESC           :   Sets sortable elements (components can rearrange)
+ DEPENDENCIES   :   Jquery, Jquery UI Sortable
+ ****************************************************************************************/
+function setSortables() {
+    $( ".sortable" ).sortable({
+        handle: '.sort',
+        axis: "y",
+        delay: 50,
+        cursor: "move",
+        opacity: 0.5,
+        tolerance: "pointer",
+        placeholder: 'sortable-placeholder'
+    });
+    $(".sortable").disableSelection();
+}
+
+
+/****************************************************************************************
+ DESC           :   Creates a new section for dragging components in
+ DEPENDENCIES   :   Jquery
+ ****************************************************************************************/
+function createNewSection() {
+    $(".section-sort").append('' +
+        '<section>' +
+            '<span class="sort">[MOVE]</span>' +
+           '<span class="pull-right remove remove-section">[x]</span>' +
+            '<h3 class="section-title" contenteditable>New Section</h3>' +
+            '<div class="drag-container">' +
+                '<h4>Drag components here</h4>' +
+            '</div>' +
+            '<div class="component-container sortable" style="display: none">' +
+            '</div>' +
+        '</section>'
+    );
+
+    // Reset droppable and sortable zones
+    setDroppable();
+    setSortables();
+
+    $( ".sortable" ).sortable( "refresh" );
+    $( ".sortable" ).sortable( "refreshPositions" );
+
+}
+
+/****************************************************************************************
+ DESC           :   Removes current section or component
+ DEPENDENCIES   :   Jquery
+ ****************************************************************************************/
+$(document.body).on('click', '.remove-section' ,function(e){
+
+    var $thisSection = $(this).closest("section");
+
+    //detect if alt held, delete immediately
+    if (e.altKey){
+        $thisSection.remove();
+    }
+
+    //otherwise confirm the delete
+    else {
+        var q = confirm("Are you sure you want to delete this section? (Hold alt to delete without this confirmation)");
+        if (q == true) {
+            $thisSection.remove();
+        }
+    }
+});
+
+$(document.body).on('click', '.remove-component' ,function(e){
+
+    $(this).closest(".component");
+
+    var $thisComponent = $(this).closest(".component");
+    var $compContainer = $thisComponent.parent();
+
+
+    //detect if alt held, delete immediately
+    if (e.altKey){
+        $thisComponent.remove();
+    }
+
+    //otherwise confirm the delete
+    else {
+        var q = confirm("Are you sure you want to delete this component? (Hold alt to delete without this confirmation)");
+        if (q == true) {
+            $thisComponent.remove();
+        }
+    }
+
+    var noOfComponents;
+    var components = $compContainer.find(".component");
+
+    noOfComponents = components.length;
+
+
+    if(noOfComponents === 0){
+        $compContainer.siblings(".drag-container").show();
+    }
+
+
+});
+});
+
+    </script>
+<style>
+
+.main-container {
+    margin-top: 50px;
+}
+.drag-container  { 
+    margin:30px;
+    border:1px solid #efefef;
+    width:100%;
+    height: 300px;
+}
+
+.drag {
+  margin:20px;
+
+}
+.component-container {
+  border: 5px solid #efefef;
+  padding: 10px;
+  margin:20px;
+
+}
+
+section {
+    margin-bottom: 10px;
+    border: 1px solid #F3F3F3;
+    padding: 20px;
+    height:300px;
+}
+</style>
+  </head>
+  <body>
+<div class="container main-container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>Template</h1>
+            <div class="sortable section-sort">
+                <section>
+                    <span class="sort">[MOVE]</span>
+                    <span class="pull-right remove remove-section">[x]</span>
+                    <h3 class="section-title" contenteditable>New Section</h3>
+                    <div class="drag-container">
+                        <h4>Drag Components here</h4>
+                    </div>
+                    <div class="component-container sortable" style="display: none">
+                    </div>
+                </section>
+            </div>
+            <button type="button" class="btn new-section btn-block btn-default" onclick="createNewSection()">Add a new Section</button>
+        </div>
+        <div class="col-sm-4">
+            <h1>Components</h1>
+            <div class="well">
+                <div class="drag alert alert-success" data-component="Success">Success</div>
+                <div class="drag alert alert-info" data-component="Info">Info</div>
+                <div class="drag alert alert-warning" data-component="Warning">Warning</div>
+                <div class="drag alert alert-danger" data-component="Danger">Danger</div>
+            </div>
+        </div>
+    </div>
+</div>

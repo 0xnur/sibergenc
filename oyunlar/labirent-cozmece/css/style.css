@@ -1,0 +1,12 @@
+#game div{
+	border: 1px black solid;
+}
+
+#game{
+	border-right: 2px black solid;
+	border-bottom: 2px black solid;
+}
+
+.playerDown, .playerUp, .playerLeft, .playerRight, .enemie1Down, .enemie1Up, .enemie1Left, .enemie1Right{
+	border: none !important;
+}

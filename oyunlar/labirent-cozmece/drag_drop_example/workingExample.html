@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sibergenc</title>
+    
+    <!--jQuery-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!--Bootstrap-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!--My files-->
+    <link type="text/css" rel="stylesheet" href="css/dragdrop.css">
+    <script rel="JavaScript">
+    // A $( document ).ready() block.
+    $( document ).ready(function() {
+        
+        $(".forBlock").sortable({
+          tolerance:"pointer",
+          connectWith: '#secondList,.ifBlock,.elseBlock,#firstList',
+           helper: function(e,li) {
+              copyHelper= li.clone().insertAfter(li);
+              return li.clone();
+          },
+          placeholder: "highlight",
+          start: function (event, ui) {
+                  ui.item.toggleClass("highlight");
+          },
+          stop: function (event, ui) {
+                  ui.item.toggleClass("highlight");
+          },
+         });
+
+        $(".ifBlock").sortable({
+          appendTo: 'body',
+          tolerance:"pointer",
+          connectWith: '#secondList, .forBlock, .elseBlock,#firstList',
+          placeholder: "highlight",
+          start: function (event, ui) {
+                  ui.item.toggleClass("highlight");
+          },
+          stop: function (event, ui) {
+                  ui.item.toggleClass("highlight");
+
+                
+          },
+
+        });
+
+        $(".elseBlock").sortable({
+          accept: ".block",
+          appendTo: 'body',
+          tolerance:"pointer",
+          connectWith: '#secondList, #firstList, .forBlock, .ifBlock',
+          placeholder: "highlight",
+          start: function (event, ui) {
+                  ui.item.toggleClass("highlight");
+                  startElement = $(this);
+          },
+          stop: function (event, ui) {
+                  ui.item.toggleClass("highlight");
+          },
+        });
+
+        $('#firstList').sortable({
+          appendTo: 'body',
+          tolerance:"pointer",
+          connectWith: '#secondList',
+          placeholder: "highlight",
+          start: function (event, ui) {
+                  ui.item.toggleClass("highlight");
+                  startElement = $(this);
+          },
+          stop: function (event, ui) {
+                  ui.item.toggleClass("highlight");
+                  $('.placeholder').hide();
+
+                  console.log(startElement.attr('id'));
+          }
+        });
+            
+        $('#secondList').sortable({
+                appendTo: 'body', 
+                connectWith: '#firstList, .forBlock,.ifBlock,.elseBlock',
+                hoverClass: "ui-state-active",
+                placeholder: "highlight",
+                tolerance:"pointer",
+                start: function (event, ui) {
+                        ui.item.toggleClass("highlight");
+                        startElement = $(this);
+                },
+                stop: function (event, ui) {
+                        ui.item.toggleClass("highlight");
+                        $('.placeholder').hide();
+
+                },
+                drop: function(event, ui) {
+                  
+                }
+        });
+    });
+
+
+    </script>
+<style>
+
+#secondList, #firstList{ min-height:400px;  border:1px solid #efefef; margin:30px; padding:20px;}
+.block {width: 200px;}
+.forBlock { padding:20px;}
+.highlight {
+    border: 1px solid yellow;
+    font-weight: bold;
+    width: 200px;
+    height:20px;
+
+}
+.number { text-align: center;}
+</style>
+  </head>
+  <body>
+    
+
+<div class="row">
+  <div class="col-xs-2 connectedSortable" id="firstList">
+    <!-- Start While Block -->
+    <div class="panel panel-default block" id="uniq1">
+      <div class="panel-heading">
+        <h3 class="panel-title">For <input class="block-number number" type="number"
+           name="blocknumber" value="1" min="1" max="50"> Times Do: </h3>
+      </div>
+      <div class="panel-body forBlock">
+        
+      </div>
+    </div>
+    <!-- Finish While Block -->
+
+       <!-- Start If Else Block -->
+    <div class="panel panel-default block " id="uniq2">
+        <div class="panel-heading">
+        <h3 class="panel-title">If There is a {wall,water,trap,tree,clay} </h3>
+      </div>
+      <div class="panel-body ifBlock">
+      </div>
+             <div class="panel-heading">
+        <h3 class="panel-title ">If Not </h3>
+      </div>
+        <div class="panel-body ifBlock">
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+    <!-- Finish If Else Block -->
+
+    <!-- Start Walk Forward Block -->
+    <div class="panel panel-default block" id="uniq1">
+      <div class="panel-body">
+        Walk <input class="block-number number" type="number"
+           name="blocknumber" value="1" min="1" max="50"> Step Forward
+      </div>
+    </div>
+    <!-- Finish Walk Forward Block -->
+
+    <!-- Start Walk Forward Block -->
+    <div class="panel panel-default block" id="uniq1">
+      <div class="panel-body">
+        Walk <input class="block-number number" type="number"
+           name="blocknumber" value="1" min="1" max="50"> Step Backword
+      </div>
+    </div>
+    <!-- Finish Walk Forward Block -->
+
+     <!-- Start Walk Forward Block -->
+    <div class="panel panel-default block" id="uniq8">
+      <div class="panel-body">
+        Turn Right 
+      </div>
+    </div>
+    <!-- Finish Walk Forward Block -->
+
+
+     <!-- Start Walk Forward Block -->
+    <div class="panel panel-default block" id="uniq7">
+      <div class="panel-body">
+        Turn Left 
+      </div>
+    </div>
+    <!-- Finish Walk Forward Block -->
+
+     <!-- Start Walk Forward Block -->
+    <div class="panel panel-default block" id="uniq6">
+      <div class="panel-body">
+        Wait For  <input class="block-number number" type="number"
+           name="blocknumber" value="1" min="1" max="50"> Turn
+      </div>
+    </div>
+    <!-- Finish Walk Forward Block -->
+
+     
+
+  </div>
+  <div class="col-xs-2 connectedSortable" id="secondList">
+
+<div class="placeholder">drag and drop here  
+</div>
+    </div>
+</div>
+

@@ -1,0 +1,74 @@
+body, html {
+  background-color: #4c5562;
+  color:#fff;
+height:100%;
+}
+
+.btn-round {
+display: block;
+border-radius: 20px;
+background: none;
+border: 2px solid #efefef;
+color: #efefef;
+}
+
+.input-group-btn .btn {
+  border-top-right-radius: 20px;
+border-bottom-right-radius: 20px;
+}
+.game-wrap {
+  display: block;
+border-radius: 400px;
+background: rgba(255, 255, 255, 0.6);
+border: 3px #FFF solid;
+margin-top: 100px;
+padding-bottom:400px;
+padding: 100px 50px;
+height: 500px;
+}
+
+.game-wrap small{
+margin-bottom: 30px;
+display: block;
+}
+
+.input-group input {
+  text-align: center;
+  margin-bottom: 20px;
+  border-top-left-radius: 20px !important;
+border-bottom-left-radius: 20px !important;
+}
+
+#enterBtn {
+width: 100px;
+}
+
+h2, h4 {
+  margin-top: 0;
+}
+
+h2{
+  font-size: 30px;
+}
+
+h4 {
+  margin-bottom: 20px
+}
+#startOverBtn {
+  display:none;
+}
+
+h3.gameStatusAlert {
+  font-size: 1.5em;
+  color:#fff;
+}
+
+h3.gameStatusAlert small {
+
+}
+
+.pos-btn {
+  display: block;
+text-align: center;
+width: 100px;
+}
